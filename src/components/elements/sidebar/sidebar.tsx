@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import NavSide from "./navSide";
 import { removeToken } from '@/lib/utils/cookies';
 import { useUser } from "@/contexts/UserDataContext";
-
+import next from "next";
 
 interface SideBarProps {
     isOpen: boolean;
@@ -48,10 +48,22 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
         };
     }, [isOpen, onClose]);
 
-    const handleLogout = async (e: React.FormEvent) => {
-        removeToken()
-        router.push('/dashboard');
-    }
+    const handleLogout = async () => {
+        // pastikan cookie benar-benar terhapus
+        await removeToken();
+
+        // tutup sidebar dulu biar tidak conflict
+        onClose();
+
+        // pakai replace agar tidak bisa back ke halaman lama
+        router.replace('/');
+
+        // fallback (untuk jaga-jaga di production)
+        setTimeout(() => {
+            router.refresh();
+        }, 50);
+    };
+
 
     return (
         <>
@@ -83,7 +95,7 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
                     <NavSide to="profile" >Profile</NavSide>
 
                     <NavSide to="#" >Settings</NavSide>
-                    <button onClick={handleLogout} className="text-left  w-full p-2 hover:bg-stone-400 hover: hover:dark:bg-stone-800 rounded-md cursor-pointer">Logout</button>
+                    <button type="button" onClick={handleLogout} className="text-left  w-full p-2 hover:bg-stone-400 hover: hover:dark:bg-stone-800 rounded-md cursor-pointer">Logout</button>
                 </div>
 
                 <div className="fixed z-50 bottom-0 left-0 p-2 w-full">

@@ -1,18 +1,19 @@
-// contexts/ThemeContext.js
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
 
-const ThemeContext = createContext();
+interface ThemeContextType {
+    theme: string;
+    toggleTheme: () => void;
+}
 
-export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState('light');
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+    const [theme, setTheme] = useState<string>('light');
 
     useEffect(() => {
-        // Cek localStorage saat komponen mount
         const savedTheme = localStorage.getItem('theme') || 'light';
         setTheme(savedTheme);
-
-        // Terapkan tema ke document
         document.documentElement.className = savedTheme;
     }, []);
 
@@ -31,5 +32,9 @@ export function ThemeProvider({ children }) {
 }
 
 export function useTheme() {
-    return useContext(ThemeContext);
+    const context = useContext(ThemeContext);
+    if (!context) {
+        throw new Error('useTheme must be used inside ThemeProvider');
+    }
+    return context;
 }

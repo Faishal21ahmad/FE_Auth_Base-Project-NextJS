@@ -13,6 +13,7 @@ export const getToken = () => {
 // HAPUS token
 export const removeToken = () => {
     Cookies.remove('token');
+    return
 };
 
 // CEK apakah token ada
