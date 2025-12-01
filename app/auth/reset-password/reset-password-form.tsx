@@ -11,12 +11,10 @@ import { Auth } from '@/lib/api/api';
 export default function ResetPasswordForm() {
     const params = useSearchParams();
     const token = params.get("token") || "";
-
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
-
     const router = useRouter();
 
     const handleResetPassword = async (e: React.FormEvent) => {

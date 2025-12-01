@@ -14,11 +14,8 @@ interface SideBarProps {
 export default function SideBar({ isOpen, onClose }: SideBarProps) {
     const sidebarRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
-
     const { user } = useUser();
 
-
-    // Handle click outside sidebar
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
@@ -26,7 +23,6 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
             }
         };
 
-        // Handle escape key
         const handleEscapeKey = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 onClose();
@@ -49,21 +45,13 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
     }, [isOpen, onClose]);
 
     const handleLogout = async () => {
-        // pastikan cookie benar-benar terhapus
         await removeToken();
-
-        // tutup sidebar dulu biar tidak conflict
         onClose();
-
-        // pakai replace agar tidak bisa back ke halaman lama
         router.replace('/');
-
-        // fallback (untuk jaga-jaga di production)
         setTimeout(() => {
             router.refresh();
         }, 50);
     };
-
 
     return (
         <>
@@ -79,7 +67,7 @@ export default function SideBar({ isOpen, onClose }: SideBarProps) {
             <div
                 id="sidebar"
                 ref={sidebarRef}
-                className={`w-72 h-screen px-2 text-black dark:text-zinc-50 bg-zinc-50 dark:bg-stone-950 z-40 fixed border-r border-zinc-100 dark:border-stone-950 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
+                className={`w-72 h-screen px-2 z-40 fixed text-black dark:text-zinc-50 bg-zinc-50 dark:bg-stone-950  border-r border-zinc-100 dark:border-stone-950 transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full'
                     } md:translate-x-0 md:block`}
             >
                 <div className="py-8 w-full items-center text-center">

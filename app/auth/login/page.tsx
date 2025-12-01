@@ -12,7 +12,6 @@ import { setToken, checkToken } from '@/lib/utils/cookies';
 import { jwtDecode } from "jwt-decode";
 import { useUser } from "@/contexts/UserDataContext";
 
-
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

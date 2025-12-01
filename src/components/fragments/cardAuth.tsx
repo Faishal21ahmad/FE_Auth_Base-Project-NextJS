@@ -14,6 +14,3 @@ export default function cardAuth(props: cardAuthProps) {
         </main>
     )
 }
-
-
-

@@ -17,7 +17,6 @@ export default function Header(props: HeaderProps) {
         <div id="header" className="w-full h-15 ml-0 md:ml-72 z-30 items-center align-middle bg-zinc-50 dark:bg-stone-950 border-b border-zinc-100 dark:border-stone-950 flex fixed">
             <BtnMenu onToggle={onToggleSidebar} />
             <div className="flex justify-between w-full px-4">
-
                 {children}
                 {/* <ThemeSwitcher /> */}
                 <p>Hai. {user?.name}</p>
